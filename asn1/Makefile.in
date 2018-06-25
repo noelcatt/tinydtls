@@ -1,0 +1,229 @@
+## Makefile for asn1 encoder/decoder
+##
+##
+## User: noel
+## Time: Apr 26, 2018 3:37:04 PM
+##
+##
+
+#### Compiler and tool definitions shared by all build targets #####
+CC = gcc
+BASICOPTS = -g
+CFLAGS = $(BASICOPTS)
+
+
+# Define the target directories.
+TARGETDIR=.
+
+
+all: rlwe-encode rlwe-decode
+	
+OBJS =  \
+	$(TARGETDIR)/per_opentype.o \
+	$(TARGETDIR)/per_encoder.o \
+	$(TARGETDIR)/BIT_STRING.o \
+	$(TARGETDIR)/per_support.o \
+	$(TARGETDIR)/ber_tlv_length.o \
+	$(TARGETDIR)/xer_support.o \
+	$(TARGETDIR)/RLWEServerKeyExchange.o \
+	$(TARGETDIR)/xer_decoder.o \
+	$(TARGETDIR)/RLWEClientKeyExchange.o \
+	$(TARGETDIR)/RLWEAlgorithm.o \
+	$(TARGETDIR)/asn_helpers.o \
+	$(TARGETDIR)/OCTET_STRING.o \
+	$(TARGETDIR)/der_encoder.o \
+	$(TARGETDIR)/constr_TYPE.o \
+	$(TARGETDIR)/NativeInteger.o \
+	$(TARGETDIR)/constr_SEQUENCE.o \
+	$(TARGETDIR)/ber_tlv_tag.o \
+	$(TARGETDIR)/xer_encoder.o \
+	$(TARGETDIR)/constraints.o \
+	$(TARGETDIR)/per_decoder.o \
+	$(TARGETDIR)/NativeEnumerated.o \
+	$(TARGETDIR)/OBJECT_IDENTIFIER.o \
+	$(TARGETDIR)/RLWECert.o \
+	$(TARGETDIR)/ber_decoder.o \
+	$(TARGETDIR)/INTEGER.o \
+	$(TARGETDIR)/asn_codecs_prim.o
+
+USERLIBS = $(SYSLIBS) 
+DEPLIBS =  
+LDLIBS = $(USERLIBS)
+
+## Target: rlwe-encode
+OBJS_rlwe-encode =  \
+	$(OBJS) \
+	$(TARGETDIR)/rlwe-encode.o
+	
+## Target: rlwe-decode
+OBJS_rlwe-decode =  \
+	$(OBJS) \
+	$(TARGETDIR)/rlwe-decode.o
+
+
+# Link or archive
+$(TARGETDIR)/rlwe-encode: $(TARGETDIR) $(OBJS_rlwe-encode) $(DEPLIBS_rlwe-encode)
+	$(LINK.c) $(CFLAGS) $(CPPFLAGS) -o $@ $(OBJS_rlwe-encode) $(LDLIBS_rlwe-encode)
+	
+## Target: rlwe-decode
+OBJS_rlwe-decode =  \
+	$(OBJS) \
+	$(TARGETDIR)/rlwe-decode.o
+
+# Link or archive
+$(TARGETDIR)/rlwe-decode: $(TARGETDIR) $(OBJS_rlwe-decode) $(DEPLIBS_rlwe-decode)
+	$(LINK.c) $(CFLAGS) $(CPPFLAGS) -o $@ $(OBJS_rlwe-decode) $(LDLIBS)
+
+
+# Compile source files into .o files
+$(TARGETDIR)/per_opentype.o: $(TARGETDIR) per_opentype.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ per_opentype.c
+
+$(TARGETDIR)/per_encoder.o: $(TARGETDIR) per_encoder.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ per_encoder.c
+
+$(TARGETDIR)/BIT_STRING.o: $(TARGETDIR) BIT_STRING.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ BIT_STRING.c
+
+$(TARGETDIR)/per_support.o: $(TARGETDIR) per_support.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ per_support.c
+
+$(TARGETDIR)/ber_tlv_length.o: $(TARGETDIR) ber_tlv_length.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ ber_tlv_length.c
+
+$(TARGETDIR)/xer_support.o: $(TARGETDIR) xer_support.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ xer_support.c
+
+$(TARGETDIR)/RLWEServerKeyExchange.o: $(TARGETDIR) RLWEServerKeyExchange.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ RLWEServerKeyExchange.c
+
+$(TARGETDIR)/xer_decoder.o: $(TARGETDIR) xer_decoder.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ xer_decoder.c
+
+$(TARGETDIR)/RLWEClientKeyExchange.o: $(TARGETDIR) RLWEClientKeyExchange.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ RLWEClientKeyExchange.c
+
+$(TARGETDIR)/RLWEAlgorithm.o: $(TARGETDIR) RLWEAlgorithm.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ RLWEAlgorithm.c
+
+$(TARGETDIR)/asn_helpers.o: $(TARGETDIR) asn_helpers.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ asn_helpers.c
+
+$(TARGETDIR)/OCTET_STRING.o: $(TARGETDIR) OCTET_STRING.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ OCTET_STRING.c
+
+$(TARGETDIR)/der_encoder.o: $(TARGETDIR) der_encoder.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ der_encoder.c
+
+$(TARGETDIR)/rlwe-encode.o: $(TARGETDIR) rlwe-encode.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ rlwe-encode.c
+
+$(TARGETDIR)/constr_TYPE.o: $(TARGETDIR) constr_TYPE.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ constr_TYPE.c
+
+$(TARGETDIR)/NativeInteger.o: $(TARGETDIR) NativeInteger.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ NativeInteger.c
+
+$(TARGETDIR)/constr_SEQUENCE.o: $(TARGETDIR) constr_SEQUENCE.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ constr_SEQUENCE.c
+
+$(TARGETDIR)/ber_tlv_tag.o: $(TARGETDIR) ber_tlv_tag.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ ber_tlv_tag.c
+
+$(TARGETDIR)/xer_encoder.o: $(TARGETDIR) xer_encoder.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ xer_encoder.c
+
+$(TARGETDIR)/constraints.o: $(TARGETDIR) constraints.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ constraints.c
+
+$(TARGETDIR)/per_decoder.o: $(TARGETDIR) per_decoder.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ per_decoder.c
+
+$(TARGETDIR)/NativeEnumerated.o: $(TARGETDIR) NativeEnumerated.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ NativeEnumerated.c
+
+$(TARGETDIR)/rlwe-decode.o: $(TARGETDIR) rlwe-decode.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ rlwe-decode.c
+
+$(TARGETDIR)/OBJECT_IDENTIFIER.o: $(TARGETDIR) OBJECT_IDENTIFIER.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ OBJECT_IDENTIFIER.c
+
+$(TARGETDIR)/RLWECert.o: $(TARGETDIR) RLWECert.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ RLWECert.c
+
+$(TARGETDIR)/ber_decoder.o: $(TARGETDIR) ber_decoder.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ ber_decoder.c
+
+$(TARGETDIR)/INTEGER.o: $(TARGETDIR) INTEGER.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ INTEGER.c
+
+$(TARGETDIR)/asn_codecs_prim.o: $(TARGETDIR) asn_codecs_prim.c
+	$(COMPILE.c) $(CFLAGS) $(CPPFLAGS) -o $@ asn_codecs_prim.c
+
+
+#### Clean target deletes all generated files ####
+clean:
+	rm -f \
+		$(TARGETDIR)/rlwe-encode \
+		$(TARGETDIR)/per_opentype.o \
+		$(TARGETDIR)/per_encoder.o \
+		$(TARGETDIR)/BIT_STRING.o \
+		$(TARGETDIR)/per_support.o \
+		$(TARGETDIR)/ber_tlv_length.o \
+		$(TARGETDIR)/xer_support.o \
+		$(TARGETDIR)/RLWEServerKeyExchange.o \
+		$(TARGETDIR)/xer_decoder.o \
+		$(TARGETDIR)/RLWEClientKeyExchange.o \
+		$(TARGETDIR)/RLWEAlgorithm.o \
+		$(TARGETDIR)/asn_helpers.o \
+		$(TARGETDIR)/OCTET_STRING.o \
+		$(TARGETDIR)/der_encoder.o \
+		$(TARGETDIR)/rlwe-encode.o \
+		$(TARGETDIR)/constr_TYPE.o \
+		$(TARGETDIR)/NativeInteger.o \
+		$(TARGETDIR)/constr_SEQUENCE.o \
+		$(TARGETDIR)/ber_tlv_tag.o \
+		$(TARGETDIR)/xer_encoder.o \
+		$(TARGETDIR)/constraints.o \
+		$(TARGETDIR)/per_decoder.o \
+		$(TARGETDIR)/NativeEnumerated.o \
+		$(TARGETDIR)/rlwe-decode.o \
+		$(TARGETDIR)/OBJECT_IDENTIFIER.o \
+		$(TARGETDIR)/RLWECert.o \
+		$(TARGETDIR)/ber_decoder.o \
+		$(TARGETDIR)/INTEGER.o \
+		$(TARGETDIR)/asn_codecs_prim.o \
+		$(TARGETDIR)/rlwe-decode \
+		$(TARGETDIR)/per_opentype.o \
+		$(TARGETDIR)/per_encoder.o \
+		$(TARGETDIR)/BIT_STRING.o \
+		$(TARGETDIR)/per_support.o \
+		$(TARGETDIR)/ber_tlv_length.o \
+		$(TARGETDIR)/xer_support.o \
+		$(TARGETDIR)/RLWEServerKeyExchange.o \
+		$(TARGETDIR)/xer_decoder.o \
+		$(TARGETDIR)/RLWEClientKeyExchange.o \
+		$(TARGETDIR)/RLWEAlgorithm.o \
+		$(TARGETDIR)/asn_helpers.o \
+		$(TARGETDIR)/OCTET_STRING.o \
+		$(TARGETDIR)/der_encoder.o \
+		$(TARGETDIR)/rlwe-encode.o \
+		$(TARGETDIR)/constr_TYPE.o \
+		$(TARGETDIR)/NativeInteger.o \
+		$(TARGETDIR)/constr_SEQUENCE.o \
+		$(TARGETDIR)/ber_tlv_tag.o \
+		$(TARGETDIR)/xer_encoder.o \
+		$(TARGETDIR)/constraints.o \
+		$(TARGETDIR)/per_decoder.o \
+		$(TARGETDIR)/converter-sample.o \
+		$(TARGETDIR)/NativeEnumerated.o \
+		$(TARGETDIR)/rlwe-decode.o \
+		$(TARGETDIR)/OBJECT_IDENTIFIER.o \
+		$(TARGETDIR)/RLWECert.o \
+		$(TARGETDIR)/ber_decoder.o \
+		$(TARGETDIR)/INTEGER.o \
+		$(TARGETDIR)/asn_codecs_prim.o
+# Enable dependency checking
+.KEEP_STATE:
+.KEEP_STATE_FILE:.make.state.GNU-amd64-Linux
+

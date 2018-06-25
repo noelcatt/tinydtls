@@ -43,19 +43,22 @@ typedef unsigned char uint32[4];
 typedef unsigned char uint48[6];
 
 #ifndef DTLS_MAX_BUF
+#define DTLS_MAX_BUF 1636 // Size required for larger RLWE keys and data.
 /** Maximum size of DTLS message.
     When Peers are sending bigger messages this causes problems. Californium
     with ECDSA needs at least 220 */
-#ifdef WITH_CONTIKI
-#ifdef DTLS_ECC
-#define DTLS_MAX_BUF 200
-#else /* DTLS_ECC */
-#define DTLS_MAX_BUF 100
-#endif /* DTLS_ECC */
-#else /* WITH_CONTIKI */
-#define DTLS_MAX_BUF 1400
-#endif /* WITH_CONTIKI */
+//#ifdef WITH_CONTIKI
+//#ifdef DTLS_ECC
+//#define DTLS_MAX_BUF 200
+//#else /* DTLS_ECC */
+//#define DTLS_MAX_BUF 100
+//#endif /* DTLS_ECC */
+//#else /* WITH_CONTIKI */
+//#define DTLS_MAX_BUF 1400
+//#endif /* WITH_CONTIKI */
 #endif
+
+#define RLWE_MAX_LEN 1536
 
 #ifndef DTLS_DEFAULT_MAX_RETRANSMIT
 /** Number of message retransmissions. */
@@ -66,7 +69,8 @@ typedef unsigned char uint48[6];
 typedef enum { 
   TLS_NULL_WITH_NULL_NULL = 0x0000,   /**< NULL cipher  */
   TLS_PSK_WITH_AES_128_CCM_8 = 0xC0A8, /**< see RFC 6655 */
-  TLS_ECDHE_ECDSA_WITH_AES_128_CCM_8 = 0xC0AE /**< see RFC 7251 */
+  TLS_ECDHE_ECDSA_WITH_AES_128_CCM_8 = 0xC0AE, /**< see RFC 7251 */
+  TLS_RLWE_BLISS_WITH_AES_128_CCM_8 = 0xFF01 /**< private range */
 } dtls_cipher_t;
 
 /** Known compression suites.*/

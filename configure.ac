@@ -55,6 +55,7 @@ AC_SUBST([WARNING_CFLAGS])
 # Checks for libraries.
 AC_SEARCH_LIBS([gethostbyname], [nsl])
 AC_SEARCH_LIBS([socket], [socket])
+AC_SEARCH_LIBS([safecrypto_create], [safecrypto])
 
 AC_ARG_WITH(debug,
   [AS_HELP_STRING([--without-debug],[disable all debug output and assertions])],
@@ -69,6 +70,13 @@ AC_ARG_WITH(ecc,
    OPT_OBJS="${OPT_OBJS} ecc/ecc.o"
    DTLS_ECC=1])
 
+AC_ARG_WITH(rlwe,
+  [AS_HELP_STRING([--without-rlwe],[disable support for TLS_RLWE_BLISS_WITH_AES_128_CCM_8])],
+  [],
+  [AC_DEFINE(DTLS_RLWE, 1, [Define to 1 if building with RLWE support.])
+   OPT_OBJS="${OPT_OBJS} asn1/asn_codecs_prim.o asn1/der_encoder.o asn1/per_support.o asn1/asn_helpers.o asn1/INTEGER.o asn1/RLWEAlgorithm.o asn1/ber_decoder.o asn1/NativeEnumerated.o asn1/RLWECert.o asn1/ber_tlv_length.o asn1/NativeInteger.o asn1/RLWEClientKeyExchange.o asn1/ber_tlv_tag.o asn1/OBJECT_IDENTIFIER.o asn1/rlwe-decode.o asn1/BIT_STRING.o asn1/OCTET_STRING.o asn1/RLWEServerKeyExchange.o asn1/constraints.o asn1/per_decoder.o asn1/xer_decoder.o asn1/constr_SEQUENCE.o  asn1/per_encoder.o asn1/xer_encoder.o asn1/constr_TYPE.o asn1/per_opentype.o asn1/xer_support.o"
+   DTLS_RLWE=1])
+
 AC_ARG_WITH(psk,
   [AS_HELP_STRING([--without-psk],[disable support for TLS_PSK_WITH_AES_128_CCM_8])],
   [],
@@ -79,8 +87,9 @@ CPPFLAGS="${CPPFLAGS} -DDTLSv12 -DWITH_SHA256"
 OPT_OBJS="${OPT_OBJS} sha2/sha2.o"
 
 AC_SUBST(OPT_OBJS)
-AC_SUBST(NDEBUG)
+# AC_SUBST(NDEBUG)
 AC_SUBST(DTLS_ECC)
+AC_SUBST(DTLS_RLWE)
 AC_SUBST(DTLS_PSK)
 AC_SUBST(AR)
 
@@ -104,7 +113,6 @@ AC_CHECK_FUNCS([memset select socket strdup strerror strnlen fls vprintf])
 
 AC_CONFIG_HEADERS([dtls_config.h])
 
-
 AC_CONFIG_FILES([Makefile
                  doc/Makefile
                  doc/Doxyfile
@@ -112,5 +120,6 @@ AC_CONFIG_FILES([Makefile
                  platform-specific/Makefile
 		 sha2/Makefile
 		 aes/Makefile
-		 ecc/Makefile])
+		 ecc/Makefile
+                 asn1/Makefile])
 AC_OUTPUT

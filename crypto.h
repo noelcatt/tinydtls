@@ -30,6 +30,11 @@
 #include "hmac.h"
 #include "ccm.h"
 
+#ifdef DTLS_RLWE
+#include <safecrypto/safecrypto.h>
+#include <safecrypto/safecrypto_types.h>
+#endif
+
 /* TLS_PSK_WITH_AES_128_CCM_8 */
 #define DTLS_MAC_KEY_LENGTH    0
 #define DTLS_KEY_LENGTH        16 /* AES-128 */
@@ -73,6 +78,23 @@ typedef struct {
   uint8 other_pub_x[32];
   uint8 other_pub_y[32];
 } dtls_handshake_parameters_ecdsa_t;
+
+typedef struct {
+  safecrypto_t *sc_sig;
+  safecrypto_t *sc_kem;
+  uint8 *own_pub;
+  size_t own_pub_len;
+  uint8 *own_sig;
+  size_t own_sig_len;
+  uint8 *other_pub;
+  size_t other_pub_len;
+  uint8 *other_sig;
+  size_t other_sig_len;
+  uint8 *other_kem;
+  size_t other_kem_len;
+  uint8 pre_secret[128];
+  size_t pre_secret_len;
+} dtls_handshake_parameters_rlwe_t;
 
 /* This is the maximal supported length of the psk client identity and psk
  * server identity hint */
@@ -130,6 +152,9 @@ typedef struct {
 #ifdef DTLS_ECC
     dtls_handshake_parameters_ecdsa_t ecdsa;
 #endif /* DTLS_ECC */
+#ifdef DTLS_RLWE
+	dtls_handshake_parameters_rlwe_t rlwe;
+#endif /* DTLS_RLWE*/	  
 #ifdef DTLS_PSK
     dtls_handshake_parameters_psk_t psk;
 #endif /* DTLS_PSK */
@@ -303,6 +328,9 @@ int dtls_decrypt(const unsigned char *src, size_t length,
  * @return The actual length of @p result.
  */
 int dtls_psk_pre_master_secret(unsigned char *key, size_t keylen,
+			       unsigned char *result, size_t result_len);
+
+int dtls_rlwe_pre_master_secret(unsigned char *key, size_t keylen,
 			       unsigned char *result, size_t result_len);
 
 #define DTLS_EC_KEY_SIZE 32

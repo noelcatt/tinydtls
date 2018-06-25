@@ -1,0 +1,28 @@
+RLWEModule DEFINITIONS ::= 
+BEGIN 
+
+RLWEAlgorithm ::= SEQUENCE {
+	pub OBJECT IDENTIFIER,
+	kem OBJECT IDENTIFIER
+}
+
+RLWECert ::= SEQUENCE {
+        alg RLWEAlgorithm,
+        data BIT STRING
+} 
+
+RLWEServerKeyExchange ::= SEQUENCE { 
+	oid OBJECT IDENTIFIER, 
+	kem BIT STRING,
+	sig BIT STRING
+} 
+
+RLWEClientKeyExchange ::= SEQUENCE { 
+	oid OBJECT IDENTIFIER, 
+	b BIT STRING,
+	c BIT STRING,
+	sig BIT STRING
+} 
+
+END
+
